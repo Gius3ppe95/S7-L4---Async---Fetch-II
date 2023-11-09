@@ -25,7 +25,32 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         // Manipola i dati e aggiorna la pagina principale con le immagini
-        console.log(data);
+        const photos = data.photos;
+        const photoContainer = document.querySelector(".album .container .row");
+        photoContainer.innerHTML = "";
+
+        photos.forEach((photo) => {
+          const card = document.createElement("div");
+          card.classList.add("col-md-4");
+          card.innerHTML = `
+            <div class="card mb-4 shadow-sm">
+              <img src="${photo.src.medium}" class="bd-placeholder-img card-img-top" width="100%" height="225">
+              <div class="card-body">
+                <h5 class="card-title">${photo.photographer}</h5>
+                <p class="card-text">${photo.url}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  </div>
+                  <small class="text-muted">${photo.id}</small>
+                </div>
+              </div>
+            </div>
+          `;
+
+          photoContainer.appendChild(card);
+        });
       })
       .catch((error) => console.error("Errore nella richiesta:", error));
   });
